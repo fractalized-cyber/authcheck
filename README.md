@@ -68,7 +68,7 @@ authcheck -f endpoints.txt -mode 4 -t1 "eyJ0eXAi..." -t2 "eyKhbGci..."
 
 ## Output
 
-The tool reports endpoints where both requests return HTTP 200 status codes, showing the differences in response sizes that might indicate potential issues.
+The tool reports endpoints where both requests return HTTP 200 status codes with the same size response.
 
 ## Contributing
 
