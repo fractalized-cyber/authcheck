@@ -5,12 +5,19 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"strings"
 	"sync"
 	"time"
 )
+
+// Suppress HTTP/2 protocol errors
+func init() {
+	log.SetOutput(ioutil.Discard)
+}
 
 const version = "1.0.0"
 
@@ -130,13 +137,13 @@ func makeRequest(url, method string, headers map[string]string) (int, int64, err
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return 0, 0, err
+		return 0, 0, nil // Ignore all errors
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return 0, 0, err
+		return 0, 0, nil // Ignore all errors
 	}
 
 	return resp.StatusCode, int64(len(body)), nil
@@ -216,14 +223,21 @@ func processFile(filename string, headers1, headers2 map[string]string, desc1, d
 			continue
 		}
 
-		if result.StatusCode1 == 200 && result.StatusCode2 == 200 {
-			fmt.Printf("\n")
+		// Only report if both status codes are 200 AND response sizes are identical
+		if result.StatusCode1 == 200 && result.StatusCode2 == 200 && result.Size1 == result.Size2 {
+			// Clear the current line and print the match
+			fmt.Printf("\r\033[K") // Clear the entire line
+			printColored(colorGreen, fmt.Sprintf("Potential Auth Bypass Found!\n"))
 			printColored(colorGreen, fmt.Sprintf("Endpoint: %s [%s]\n", result.Endpoint, result.Method))
 			printColored(colorYellow, fmt.Sprintf("%s: %d (%d bytes)\n", result.Description1, result.StatusCode1, result.Size1))
 			printColored(colorYellow, fmt.Sprintf("%s: %d (%d bytes)\n", result.Description2, result.StatusCode2, result.Size2))
+			fmt.Printf("\n") // Add spacing between matches
+			// Print a new progress bar
+			printProgress(count, total)
 		}
 	}
-	fmt.Printf("\nDone.\n")
+	fmt.Printf("\r\033[K") // Clear the final progress bar
+	fmt.Printf("Done.\n")
 }
 
 func printProgress(current, total int) {
@@ -314,4 +328,4 @@ func main() {
 	}
 
 	processFile(*fileFlag, headers1, headers2, desc1, desc2)
-} 
+}
