@@ -27,7 +27,7 @@ go install github.com/fractalized-cyber/authcheck@latest
 ## Usage
 
 ```bash
-auth_check [options] -f <file_with_endpoints>
+authcheck [options] -f <file_with_endpoints>
 ```
 
 ### Options
@@ -48,22 +48,22 @@ auth_check [options] -f <file_with_endpoints>
 
 Compare with/without cookie:
 ```bash
-auth_check -f endpoints.txt -mode 1 -c1 "session=abc123"
+authcheck -f endpoints.txt -mode 1 -c1 "session=abc123"
 ```
 
 Compare two different cookies:
 ```bash
-auth_check -f endpoints.txt -mode 2 -c1 "session=abc123" -c2 "session=xyz789"
+authcheck -f endpoints.txt -mode 2 -c1 "session=abc123" -c2 "session=xyz789"
 ```
 
 Compare with/without bearer token:
 ```bash
-auth_check -f endpoints.txt -mode 3 -t1 "eyJ0eXAi..."
+authcheck -f endpoints.txt -mode 3 -t1 "eyJ0eXAi..."
 ```
 
 Compare two different bearer tokens:
 ```bash
-auth_check -f endpoints.txt -mode 4 -t1 "eyJ0eXAi..." -t2 "eyKhbGci..."
+authcheck -f endpoints.txt -mode 4 -t1 "eyJ0eXAi..." -t2 "eyKhbGci..."
 ```
 
 ## Output
