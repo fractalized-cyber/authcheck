@@ -4,19 +4,19 @@ AuthCheck is a powerful authentication testing tool designed to identify potenti
 
 ## Features
 
-- 🔍 Compare responses between:
+- Compare responses between:
   - Cookies vs No Cookies
   - Two different Cookie headers
   - Bearer token vs No Bearer token
   - Two different Bearer tokens
-- 🚀 Concurrent request processing
-- 📊 Progress bar visualization
-- 🛡️ Automatic retry mechanism
-- 📝 Detailed response comparison including:
+- Concurrent request processing
+- Progress bar visualization
+- Automatic retry mechanism
+- Detailed response comparison including:
   - Response status codes
   - Response body sizes
   - Side-by-side comparison
-- 🎯 Filters out static files (.js, .map, .svg)
+- Filters out static files (.js, .map, .svg)
 
 ## Installation
 
